@@ -1,47 +1,33 @@
 const path = require('path');
+const HtmlWebpackPlugin = require('html-webpack-plugin');
 const webpack = require('webpack');
 
-let keys;
-try {
-  keys = require("./keys.ts");
-} catch (err) {
-  try {
-    keys = require("./keys.js");
-  } catch {
-    keys = { GOOGLE_MAPS_API_KEY: process.env.GOOGLE_MAPS_API_KEY || "" };
-  }
-}
-
 module.exports = {
-  mode: 'development',
+  mode: process.env.NODE_ENV || 'development',
   entry: './src/app.ts',
-  devServer: {
-    static: [
-      {
-        directory: path.join(__dirname),
-      },
-    ],
-  },
   output: {
     filename: 'bundle.js',
     path: path.resolve(__dirname, 'dist'),
-    publicPath: '/typescript-miniproject-5/'
+    publicPath: process.env.NODE_ENV === 'production' ? '/typescript-miniproject-5/' : '/',
+  },
+  devServer: {
+    static: {
+      directory: path.join(__dirname, 'dist'),
+    },
+    compress: true,
+    port: 8080,
+    open: true,
   },
   module: {
     rules: [
-      {
-        test: /\.tsx?$/,
-        use: 'ts-loader',
-        exclude: /node_modules/
-      }
-    ]
+      { test: /\.ts$/, use: 'ts-loader', exclude: /node_modules/ },
+      { test: /\.css$/, use: ['style-loader', 'css-loader'] },
+    ],
   },
-  resolve: {
-    extensions: ['.ts', '.js']
-  },
+  resolve: { extensions: ['.ts', '.js'] },
   plugins: [
-    new webpack.DefinePlugin({
-      'process.env.GOOGLE_MAPS_API_KEY': JSON.stringify(keys.GOOGLE_MAPS_API_KEY),
+    new HtmlWebpackPlugin({
+      template: 'index.html',
     }),
   ],
 };

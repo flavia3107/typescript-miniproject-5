@@ -1,14 +1,17 @@
 import axios from "axios";
 import keys from "../keys";
-
+import '../app.css';
 const form = document.querySelector("form")!;
 const addressInput = document.getElementById("address")! as HTMLInputElement;
 
-const script = document.createElement('script');
-script.src = `https://maps.googleapis.com/maps/api/js?key=${keys.GOOGLE_MAPS_API_KEY}&callback=initMap`;
-script.async = true;
-script.defer = true;
-document.head.appendChild(script);
+if (!document.getElementById('google-maps-script')) {
+  const script = document.createElement('script');
+  script.id = 'google-maps-script';
+  script.src = `https://maps.googleapis.com/maps/api/js?key=${keys.GOOGLE_MAPS_API_KEY}`;
+  script.async = true;
+  script.defer = true;
+  document.head.appendChild(script);
+}
 
 type GoogleGeocodingResponse = {
   results: { geometry: { location: { lat: number; lng: number } } }[];
