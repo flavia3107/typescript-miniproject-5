@@ -4,6 +4,12 @@ import keys from "../keys";
 const form = document.querySelector("form")!;
 const addressInput = document.getElementById("address")! as HTMLInputElement;
 
+const script = document.createElement('script');
+script.src = `https://maps.googleapis.com/maps/api/js?key=${keys.GOOGLE_MAPS_API_KEY}&callback=initMap`;
+script.async = true;
+script.defer = true;
+document.head.appendChild(script);
+
 type GoogleGeocodingResponse = {
   results: { geometry: { location: { lat: number; lng: number } } }[];
   status: "OK" | "ZERO_RESULTS";
