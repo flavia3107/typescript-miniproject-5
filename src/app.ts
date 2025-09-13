@@ -1,6 +1,7 @@
 import axios from "axios";
 import keys from "../keys";
 import '../app.css';
+
 const form = document.querySelector("form")!;
 const addressInput = document.getElementById("address")! as HTMLInputElement;
 
