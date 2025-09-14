@@ -4,7 +4,7 @@
   "description": "Understanding TypeScript Course Setup",
   "main": "app.js",
   "scripts": {
-    "build": "webpack --config webpack.config.js",
+    "build": "webpack --config webpack.config.js && cp public/* dist/",
     "predeploy": "npm run build",
     "deploy": "gh-pages -d dist",
     "start": "webpack-dev-server"
